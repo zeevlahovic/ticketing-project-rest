@@ -21,51 +21,57 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseWrapper> getTasks() {
-        List<TaskDTO> taskDTOS = taskService.listAllTasks();
-        return ResponseEntity.ok(new ResponseWrapper("tasks are successfully retrieved", taskDTOS, HttpStatus.OK));
+    public ResponseEntity<ResponseWrapper> getTasks(){
+        List<TaskDTO> taskDTOList = taskService.listAllTasks();
+        return ResponseEntity.ok(new ResponseWrapper("Tasks are successfully retrieved",taskDTOList, HttpStatus.OK));
     }
+
+
 
     @GetMapping("/{taskId}")
-    public ResponseEntity<ResponseWrapper> getTaskById(@PathVariable("taskId") Long taskId) {
-        TaskDTO taskDTO = taskService.findById(taskId);
-        return ResponseEntity.ok(new ResponseWrapper("task is successfully retrieved", taskId, HttpStatus.OK));
+    public ResponseEntity<ResponseWrapper> getTaskById(@PathVariable("taskId") Long taskId){
+        TaskDTO task = taskService.findById(taskId);
+        return ResponseEntity.ok(new ResponseWrapper("Task is successfully retrieved",task, HttpStatus.OK));
     }
 
-    @PutMapping
-    public ResponseEntity<ResponseWrapper> createTask(@RequestBody TaskDTO taskDTO) {
-        taskService.save(taskDTO);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ResponseWrapper("task is successfully created", HttpStatus.CREATED));
+    @PostMapping
+    public ResponseEntity<ResponseWrapper> createTask(@RequestBody TaskDTO task){
+        taskService.save(task);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("Task is successfully created",HttpStatus.CREATED));
     }
 
     @DeleteMapping("/{taskId}")
-    public ResponseEntity<ResponseWrapper> deleteTask(@PathVariable("taskId") Long taskId) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ResponseWrapper("task is successfully deleted", HttpStatus.OK));
+    public ResponseEntity<ResponseWrapper> deleteTask(@PathVariable("taskId") Long taskId){
+        taskService.delete(taskId);
+        return ResponseEntity.ok(new ResponseWrapper("Task is successfully deleted", HttpStatus.OK));
     }
 
     @PutMapping
-    public ResponseEntity<ResponseWrapper> updateTask(@RequestBody TaskDTO taskDTO) {
-        taskService.update(taskDTO);
-        return ResponseEntity.ok(new ResponseWrapper("task is successfully updated", HttpStatus.OK));
+    public ResponseEntity<ResponseWrapper> updateTask(@RequestBody TaskDTO task){
+        taskService.update(task);
+        return ResponseEntity.ok(new ResponseWrapper("Task is successfully updated", HttpStatus.OK));
+
     }
 
     @GetMapping("/employee/pending-tasks")
-    public ResponseEntity<ResponseWrapper> employeePendingTasks() {
+    public ResponseEntity<ResponseWrapper> employeePendingTasks(){
         List<TaskDTO> taskDTOList = taskService.listAllTasksByStatusIsNot(Status.COMPLETE);
-        return ResponseEntity.ok(new ResponseWrapper("Tasks are successfully retrieved", taskDTOList, HttpStatus.OK));
+        return ResponseEntity.ok(new ResponseWrapper("Tasks are successfully retrieved",taskDTOList,HttpStatus.OK));
     }
 
-    @PutMapping("/employee/update")
-    public ResponseEntity<ResponseWrapper> employeeUpdateTasks(@RequestBody TaskDTO taskDTO) {
-        taskService.update(taskDTO);
-        return ResponseEntity.ok(new ResponseWrapper("Task is successfully retrieved", HttpStatus.OK));
+    @PutMapping("/employee/update/")
+    public ResponseEntity<ResponseWrapper> employeeUpdateTasks(@RequestBody TaskDTO task){
+        taskService.update(task);
+        return ResponseEntity.ok(new ResponseWrapper("Task is successfully updated",HttpStatus.OK));
+
     }
+
 
     @GetMapping("/employee/archive")
-    public ResponseEntity<ResponseWrapper> employeeArchivedTasks() {
-        List<TaskDTO> taskDTOS = taskService.listAllTasksByStatus(Status.COMPLETE);
-        return ResponseEntity.ok(new ResponseWrapper("Tasks are successfully retrieved", taskDTOS, HttpStatus.OK));
+    public ResponseEntity<ResponseWrapper> employeeArchivedTasks(){
+        List<TaskDTO> taskDTOList = taskService.listAllTasksByStatus(Status.COMPLETE);
+        return ResponseEntity.ok(new ResponseWrapper("Tasks are successfully retrieved",taskDTOList,HttpStatus.OK));
+
     }
+
 }
