@@ -1,4 +1,6 @@
 package com.zee.dto;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zee.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,8 +39,9 @@ public class ProjectDTO {
     private String projectDetail;
 
     private Status projectStatus;
-
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int completeTaskCounts;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int unfinishedTaskCounts;
 
     public ProjectDTO(String projectName, String projectCode, UserDTO assignedManager, LocalDate startDate, LocalDate endDate, String projectDetail, Status projectStatus) {
