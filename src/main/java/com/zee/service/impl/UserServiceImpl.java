@@ -1,5 +1,6 @@
 package com.zee.service.impl;
 
+import com.zee.annotation.DefaultExceptionMessage;
 import com.zee.dto.ProjectDTO;
 import com.zee.dto.TaskDTO;
 import com.zee.dto.UserDTO;
@@ -84,6 +85,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @DefaultExceptionMessage(defaultMessage = "Failed to delete user")
     public void delete(String username) throws TicketingProjectException {
 
         User user = userRepository.findByUserNameAndIsDeleted(username, false);

@@ -3,6 +3,7 @@ package com.zee.controller;
 
 import com.zee.dto.ResponseWrapper;
 import com.zee.dto.UserDTO;
+import com.zee.exception.TicketingProjectException;
 import com.zee.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -61,7 +62,7 @@ public class UserController {
     @DeleteMapping("/{username}")
     @RolesAllowed({"Admin"})
     @Operation(summary = "Delete user")
-    public ResponseEntity<ResponseWrapper> deleteUsers(@PathVariable("username") String userName) {
+    public ResponseEntity<ResponseWrapper> deleteUsers(@PathVariable("username") String userName) throws TicketingProjectException {
         userService.delete(userName);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ResponseWrapper("user is successfully deleted", HttpStatus.OK));
