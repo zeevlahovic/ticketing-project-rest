@@ -4,6 +4,7 @@ import com.zee.dto.ProjectDTO;
 import com.zee.dto.TaskDTO;
 import com.zee.dto.UserDTO;
 import com.zee.entity.User;
+import com.zee.exception.TicketingProjectException;
 import com.zee.mapper.UserMapper;
 import com.zee.repository.UserRepository;
 import com.zee.service.KeycloakService;
@@ -83,7 +84,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String username) {
+    public void delete(String username) throws TicketingProjectException {
 
         User user = userRepository.findByUserNameAndIsDeleted(username, false);
 
@@ -91,6 +92,8 @@ public class UserServiceImpl implements UserService {
             user.setIsDeleted(true);
             user.setUserName(user.getUserName() + "-" + user.getId());  // harold@manager.com-2
             userRepository.save(user);
+        }else {
+            throw new TicketingProjectException("User can not be deleted");
         }
 
     }
